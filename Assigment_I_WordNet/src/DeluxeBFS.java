@@ -1,8 +1,8 @@
 import java.util.Iterator;
 
 /**
- * Uses same implementation as <tt>BreadthFirstPaths</tt> class in algs4.jar the
- * only diferrence is that this keeps track of the ancestral path using the
+ * Same implementation as <tt>BreadthFirstPaths</tt> class in algs4.jar the only
+ * diferrence is that this keeps track of the ancestral path using the
  * markedVertex Queue
  * 
  * @author aldperez
@@ -171,10 +171,8 @@ public class DeluxeBFS {
 	}
 
 	public static void main(String[] args) {
-		In in = new In(
-				"C:\\Users\\aldperez\\Downloads\\wordnet\\digraph-wordnet.txt");
+		In in = new In("wordnet/digraph-wordnet.txt");
 		Digraph G = new Digraph(in);
-		// StdOut.println(G);
 
 		int s = 1;
 		DeluxeBFS bfs = new DeluxeBFS(G, s);
