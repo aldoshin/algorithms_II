@@ -1,7 +1,7 @@
 algorithms_II
 =============
 
-Repository for second part of Princeton Algorithms, Part II
+Repository for second part of Princeton Algorithms, Part II (http://algs4.cs.princeton.edu/home/)
 
 Wordnet
 =======================
