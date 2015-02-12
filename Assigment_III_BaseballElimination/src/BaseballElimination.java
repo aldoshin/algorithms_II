@@ -1,7 +1,5 @@
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class BaseballElimination {
 
@@ -17,8 +15,9 @@ public class BaseballElimination {
 	private int remainingOthers;
 	private final int numberTeams;
 
-	// create a baseball division from given filename in format specified below
 	/**
+	 * Create a baseball division from given filename in format specified below.
+	 * 
 	 * Each line contains the team name (with no internal whitespace
 	 * characters), the number of wins, the number of losses, the number of
 	 * remaining games, and the number of remaining games against each team in
@@ -54,7 +53,6 @@ public class BaseballElimination {
 			for (int j = 0; j < this.numberTeams; j++) {
 				this.remainingAgainst[i][j] = in.readInt();
 			}
-
 		}
 	}
 
@@ -96,9 +94,9 @@ public class BaseballElimination {
 
 	// is given team eliminated?
 	public boolean isEliminated(String team) {
-		isTeam(team);
-		return certificateOfElimination(team) != null
-				&& certificateOfElimination(team).iterator().hasNext();
+		Iterable<String> certificateOfElimination = certificateOfElimination(team);
+		return certificateOfElimination != null
+				&& certificateOfElimination.iterator().hasNext();
 	}
 
 	// subset R of teams that eliminates given team; null if not eliminated
@@ -111,10 +109,10 @@ public class BaseballElimination {
 	}
 
 	private Iterable<String> solveForTeam(String team) {
-		isTeam(team);
 		Bag<String> teams = new Bag<>();
 		Integer teamId = this.teamsMap.get(team);
 		int maxWins = wins[teamId] + remaining[teamId];
+
 		// trivial Eliminated
 		for (String otherTeam : this.teamsMap.keySet()) {
 			int otherTeamwins = wins[this.teamsMap.get(otherTeam)];
@@ -124,23 +122,14 @@ public class BaseballElimination {
 			}
 		}
 
-		int wR = 0;
-		Set<Integer> set = new HashSet<>();
 		FordFulkerson f = this.buildGraphForTeam(teamId);
-		if(this.remainingOthers > f.value())
-		for (String keyTeam : this.teamsMap.keySet()) {
-			Integer otherTeamId = this.teamsMap.get(keyTeam);
-			if (f.inCut(otherTeamId)) {
-				wR += wins[otherTeamId];
-				set.add(otherTeamId);
-				teams.add(keyTeam);
+		if (this.remainingOthers > f.value()) {
+			for (String keyTeam : this.teamsMap.keySet()) {
+				if (f.inCut(this.teamsMap.get(keyTeam))) {
+					teams.add(keyTeam);
+				}
 			}
-		}
-		if (teams.size() > 0) {
-			int mathElimination = (wR + this.remainingOthers) / teams.size();
-			if (mathElimination >= maxWins) {
-				return teams;
-			}
+			return teams;
 		}
 		return null;
 	}
@@ -223,6 +212,8 @@ public class BaseballElimination {
 			System.out.println();
 		}
 
+		System.out.println();
+
 		for (String team : division.teams()) {
 			// String team = "Montreal";
 			if (division.isEliminated(team)) {
@@ -231,8 +222,8 @@ public class BaseballElimination {
 					StdOut.print(t + " ");
 				}
 				StdOut.println("}");
-//			} else {
-//				StdOut.println(team + " is not eliminated");
+			} else {
+				StdOut.println(team + " is not eliminated");
 			}
 		}
 	}
