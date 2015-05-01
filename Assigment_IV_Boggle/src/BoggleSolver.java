@@ -1,4 +1,3 @@
-import java.util.Arrays;
 
 /*************************************************************************
  * 
@@ -36,7 +35,7 @@ import java.util.Arrays;
  *************************************************************************/
 public class BoggleSolver {
 
-	private TST<String> tst;
+	private TrieBoggle<String> tst;
 	private BoggleBoard boggleBoard;
 	private SET<String> validWords;
 	private Object[] neightbors;
@@ -46,7 +45,7 @@ public class BoggleSolver {
 	// (You can assume each word in the dictionary contains only the uppercase
 	// letters A through Z.)
 	public BoggleSolver(String[] dictionary) {
-		tst = new TST<>();
+		tst = new TrieBoggle<>();
 		for (String word : dictionary) {
 			tst.put(word, word);
 		}
@@ -92,14 +91,13 @@ public class BoggleSolver {
 		for (int node = 0; node < N; node++) {
 			boolean[] marked = new boolean[N];
 			StringBuilder sb = new StringBuilder();
-			buildChar(node, marked, sb, 0);
+			buildChar(node, marked, sb);
 		}
 
 	}
 
 	@SuppressWarnings("unchecked")
-	private void buildChar(int node, boolean[] marked, StringBuilder sb,
-			int nodeP) {
+	private void buildChar(int node, boolean[] marked, StringBuilder sb) {
 		int columns = this.boggleBoard.cols();
 		int rows = this.boggleBoard.rows();
 		int N = columns * rows;
@@ -113,7 +111,7 @@ public class BoggleSolver {
 				sb.append("U");
 			}
 
-			if (tst.keysWithPrefix(sb.toString()).iterator().hasNext()) {
+			if (tst.keysWithPrefix(sb.toString())) {
 				if (sb.length() > 2) {
 					String word = tst.get(sb.toString());
 					if (word != null) {
@@ -124,10 +122,10 @@ public class BoggleSolver {
 					neightbors[node] = buildNeighbours(i, j, rows, columns);
 				}
 				for (Integer neightbor : ((Iterable<Integer>) neightbors[node])) {
-					buildChar(neightbor, Arrays.copyOf(marked, marked.length),
-							new StringBuilder(sb), node);
+					buildChar(neightbor, marked, new StringBuilder(sb));
 				}
 			}
+			marked[node] = false;
 		}
 	}
 
@@ -187,8 +185,9 @@ public class BoggleSolver {
 //		String[] args1 = { "boggle/dictionary-yawl.txt",
 //				"boggle/board-dichlorodiphenyltrichloroethanes.txt" };
 //		String[] args1 = { "boggle/dictionary-algs4.txt", "boggle/board4x4.txt" };// 33
-		String[] args1 = { "boggle/dictionary-algs4.txt", "boggle/board-q.txt" };// 84
-		// String[] args1 = { "boggle/dictionary-common.txt" };
+		String[] args1 = { "boggle/dictionary-yawl.txt", "boggle/board-points26539.txt" };// 33
+//		String[] args1 = { "boggle/dictionary-algs4.txt", "boggle/board-q.txt" };// 84
+//		String[] args1 = { "boggle/dictionary-common.txt" };
 		//
 		// char[][] a = {
 		// { 'B', 'D', 'H', 'N', 'I' },
