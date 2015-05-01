@@ -134,10 +134,10 @@ public class BoggleSolver {
 	/**
 	 * Building the neighbours
 	 * 
-	 * You can try this. First decide the size of the grid Lets say its 8 X 8 &
+	 * You can try this. First decide the size of the grid Lets say its 8 X 8
 	 * assign MIN_X = 0, MIN_Y = 0, MAX_X =7, MAX_Y =7
 	 * 
-	 * Your curren position is represented by thisPosX , thisPosY, then try
+	 * Your current position is represented by thisPosX , thisPosY, then try
 	 * this:
 	 * 
 	 * The basic principle is not to access things that are out of bounds -- so
@@ -147,14 +147,10 @@ public class BoggleSolver {
 	 * 
 	 * for the matrix 4 x 4
 	 * 
-	 * 0  1  2  3
-	 * 4  5  6  7
-	 * 8  9  10 11
-	 * 12 13 14 15
+	 * 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 	 * 
-	 * element 0 is in position i=0 and j=0
-	 * element 3 is i=0, j=3
-	 * element 12 is i=3, j=0
+	 * element 0 is in position i=0 and j=0 element 3 is i=0, j=3 element 12 is
+	 * i=3, j=0
 	 * 
 	 * @param i
 	 * @param j
@@ -186,12 +182,11 @@ public class BoggleSolver {
 	}
 
 	public static void main(String[] args) {
-		// String[] args1 = { "boggle/dictionary-yawl.txt",
-		// "boggle/board-antidisestablishmentarianisms.txt" };// 40
-		// String[] args1 = { "boggle/dictionary-yawl.txt",
-		// "boggle/board-dichlorodiphenyltrichloroethanes.txt" };
-		// String[] args1 = { "boggle/dictionary-algs4.txt",
-		// "boggle/board4x4.txt" };// 33
+//		String[] args1 = { "boggle/dictionary-yawl.txt",
+//				"boggle/board-antidisestablishmentarianisms.txt" };// 40
+//		String[] args1 = { "boggle/dictionary-yawl.txt",
+//				"boggle/board-dichlorodiphenyltrichloroethanes.txt" };
+//		String[] args1 = { "boggle/dictionary-algs4.txt", "boggle/board4x4.txt" };// 33
 		String[] args1 = { "boggle/dictionary-algs4.txt", "boggle/board-q.txt" };// 84
 		// String[] args1 = { "boggle/dictionary-common.txt" };
 		//
