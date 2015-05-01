@@ -92,6 +92,7 @@ In fact, when a team is mathematically eliminated there always exists such a con
 
 Programming Assignment 4: Boggle
 ===================================================
+Possible timing improvements implementing dfs with stack instead of recursive method
 
 The Boggle game. Boggle is a word game designed by Allan Turoff and distributed by Hasbro. It involves a board made up of 16 cubic dice, where each die has a letter printed on each of its sides. At the beginning of the game, the 16 dice are shaken and randomly distributed into a 4-by-4 tray, with only the top sides of the dice visible. The players compete to accumulate points by building valid words out of the dice according to the following rules:
 
