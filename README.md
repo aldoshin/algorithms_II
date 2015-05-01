@@ -88,3 +88,59 @@ Finally, we connect each team vertex to an artificial sink vertex t. We want to 
   **What the min cut tells us**.   By solving a maxflow problem, we can determine whether a given team is mathematically eliminated. We would also like to explain the reason for the team's elimination to a friend in nontechnical terms (using only grade-school arithmetic). Here's such an explanation for Detroit's elimination in the American League East example above. With the best possible luck, Detroit finishes the season with 49 + 27 = 76 wins. Consider the subset of teams R = { New York, Baltimore, Boston, Toronto }. Collectively, they already have 75 + 71 + 69 + 63 = 278 wins; there are also 3 + 8 + 7 + 2 + 7 = 27 remaining games among them, so these four teams must win at least an additional 27 games. Thus, on average, the teams in R win at least 305 / 4 = 76.25 games. Regardless of the outcome, one team in R will win at least 77 games, thereby eliminating Detroit.
 
 In fact, when a team is mathematically eliminated there always exists such a convincing certificate of elimination, where R is some subset of the other teams in the division. Moreover, you can always find such a subset R by choosing the team vertices on the source side of a min s-t cut in the baseball elimination network. Note that although we solved a maxflow/mincut problem to find the subset R, once we have it, the argument for a team's elimination involves only grade-school algebra.
+
+
+Programming Assignment 4: Boggle
+===================================================
+
+The Boggle game. Boggle is a word game designed by Allan Turoff and distributed by Hasbro. It involves a board made up of 16 cubic dice, where each die has a letter printed on each of its sides. At the beginning of the game, the 16 dice are shaken and randomly distributed into a 4-by-4 tray, with only the top sides of the dice visible. The players compete to accumulate points by building valid words out of the dice according to the following rules:
+
++ A valid word must be composed by following a sequence of adjacent dice—two dice are adjacent if they are horizontal, vertical, or diagonal neighbors.
++ A valid word can use each die at most once.
++ A valid word must contain at least 3 letters.
++ A valid word must be in the dictionary (which typically does not contain proper nouns).
+
+**Scoring.** Words are scored according to their length, using this table:
+
+```
+word length   points  
+  0–2           0
+  3–4           1
+  5             2
+  6             3
+  7             5
+  8+           11
+```
+**The Qu special case.** In the English language, the letter Q is almost always followed by the letter U. Consequently, the side of one die is printed with the two-letter sequence Qu instead of Q (and this two-letter sequence must be used together when forming words). When scoring, Qu counts as two letters; for example, the word QuEUE scores as a 5-letter word even though it is formed by following a sequence of 4 dice.
+
+**Testing**. We provide a number of dictionary and board files for testing.
+
++ _Dictionaries._ A dictionary consists of a sequence of words, separated by whitespace, in alphabetical order. You can assume that each word contains only the uppercase letters A through Z. For example, here are the two files dictionary-algs4.txt and dictionary-yawl.txt:
+
+The former is a list of 6,013 words that appear in Algorithms 4/e; the latter is a comprehensive list of 264,061 English words (known as Yet Another Word List) that is widely used in word-game competitions.
++ _Boggle boards._ A boggle board consists of two integers M and N, followed by the M × N characters in the board, with the integers and characters separated by whitespace. You can assume the integers are nonnegative and that the characters are uppercase letters A through Z (with the two-letter sequence Qu represented as either Q or Qu). For example, here are the files board4x4.txt and board-q.txt:
+
+```
+% more board4x4.txt        % more board-q.txt
+4 4                        4 4
+A  T  E  E                 S  N  R  T
+A  P  Y  O                 O  I  E  L
+T  I  N  U                 E  Qu T  T
+E  D  S  E                 R  S  A  T
+```
+
+The following test client takes the filename of a dictionary and the filename of a Boggle board as command-line arguments and prints out all valid words for the given board using the given dictionary.
+
+Here are two sample executions:
+```
+% java BoggleSolver dictionary-algs4.txt board4x4.txt     % java BoggleSolver dictionary-algs4.txt board-q.txt
+AID                                                       EQUATION
+DIE                                                       EQUATIONS
+END                                                       ...
+ENDS                                                      QUERIES
+...                                                       QUESTION
+YOU                                                       QUESTIONS
+Score = 33                                                ...
+                                                          TRIES
+                                                          Score = 84
+```
