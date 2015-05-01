@@ -9,11 +9,11 @@ import java.util.Arrays;
  * - Use a standard set data type to represent the dictionary, e.g., a
  * SET<String>, a TreeSet<String>, or a HashSet<String>.
  * 
- * - Create the data type BoggleSolver. Write a method based on depth-first search
- * to enumerate all strings that can be composed by following sequences of
- * adjacent dice. That is, enumerate all simple paths in the Boggle graph (but
- * there is no need to explicitly form the graph). For now, ignore the special
- * two-letter sequence Qu.
+ * - Create the data type BoggleSolver. Write a method based on depth-first
+ * search to enumerate all strings that can be composed by following sequences
+ * of adjacent dice. That is, enumerate all simple paths in the Boggle graph
+ * (but there is no need to explicitly form the graph). For now, ignore the
+ * special two-letter sequence Qu.
  * 
  * - Now, implement the following critical backtracking optimization: when the
  * current path corresponds to a string that is not a prefix of any word in the
@@ -121,7 +121,7 @@ public class BoggleSolver {
 					}
 				}
 				if (neightbors[node] == null) {
-					neightbors[node] = buildNeightbors(i, j, rows, columns);
+					neightbors[node] = buildNeighbours(i, j, rows, columns);
 				}
 				for (Integer neightbor : ((Iterable<Integer>) neightbors[node])) {
 					buildChar(neightbor, Arrays.copyOf(marked, marked.length),
@@ -131,59 +131,54 @@ public class BoggleSolver {
 		}
 	}
 
-	private Queue<Integer> buildNeightbors(int i, int j, int rows, int columns) {
-		Queue<Integer> neightbors = new Queue<>();
-		if (i < rows - 1 && j < columns - 1) {
-			neightbors.enqueue(xyTo1D(i, j + 1, columns));
-			neightbors.enqueue(xyTo1D(i + 1, j, columns));
-			neightbors.enqueue(xyTo1D(i + 1, j + 1, columns));
-			if (j > 0) {
-				neightbors.enqueue(xyTo1D(i, j - 1, columns));
-				neightbors.enqueue(xyTo1D(i + 1, j - 1, columns));
-			}
-			if (i > 0) {
-				neightbors.enqueue(xyTo1D(i - 1, j, columns));
-				neightbors.enqueue(xyTo1D(i - 1, j + 1, columns));
-			}
-			if (i > 0 && j > 0) {
-				neightbors.enqueue(xyTo1D(i - 1, j - 1, columns));
-			}
-		} else {
-			if (columns == 1) {
-				if (i > 0) {
-					neightbors.enqueue(xyTo1D(i - 1, j, columns));
-				}
-				if (i < rows - 1) {
-					neightbors.enqueue(xyTo1D(i + 1, j, columns));
-				}
-			} else if (i == rows - 1) {
-				neightbors.enqueue(xyTo1D(i - 1, j, columns));
-				if (j > 0) {
-					neightbors.enqueue(xyTo1D(i, j - 1, columns));
-					neightbors.enqueue(xyTo1D(i - 1, j - 1, columns));
-				}
-				if (j < columns - 1) {
-					neightbors.enqueue(xyTo1D(i, j + 1, columns));
-					neightbors.enqueue(xyTo1D(i - 1, j + 1, columns));
-				}
-			} else if (rows == 1) {
-				if (j > 0) {
-					neightbors.enqueue(xyTo1D(i, j - 1, columns));
-				}
-				if (j < columns - 1) {
-					neightbors.enqueue(xyTo1D(i, j + 1, columns));
-				}
-			} else {
-				neightbors.enqueue(xyTo1D(i, j - 1, columns));
-				neightbors.enqueue(xyTo1D(i + 1, j, columns));
-				neightbors.enqueue(xyTo1D(i + 1, j - 1, columns));
-				if (i > 0) {
-					neightbors.enqueue(xyTo1D(i - 1, j, columns));
-					neightbors.enqueue(xyTo1D(i - 1, j - 1, columns));
+	/**
+	 * Building the neighbours
+	 * 
+	 * You can try this. First decide the size of the grid Lets say its 8 X 8 &
+	 * assign MIN_X = 0, MIN_Y = 0, MAX_X =7, MAX_Y =7
+	 * 
+	 * Your curren position is represented by thisPosX , thisPosY, then try
+	 * this:
+	 * 
+	 * The basic principle is not to access things that are out of bounds -- so
+	 * either protect the bounds or don't go out of bounds in the first place.
+	 * That is, start at a place where you won't immediately go out of bounds
+	 * and stop before you get out of bounds.
+	 * 
+	 * for the matrix 4 x 4
+	 * 
+	 * 0  1  2  3
+	 * 4  5  6  7
+	 * 8  9  10 11
+	 * 12 13 14 15
+	 * 
+	 * element 0 is in position i=0 and j=0
+	 * element 3 is i=0, j=3
+	 * element 12 is i=3, j=0
+	 * 
+	 * @param i
+	 * @param j
+	 * @param rows
+	 * @param columns
+	 * @return
+	 */
+	private Queue<Integer> buildNeighbours(int i, int j, int rows, int columns) {
+
+		Queue<Integer> neighbours = new Queue<>();
+		int startPosX = (i - 1 < 0) ? i : i - 1;
+		int startPosY = (j - 1 < 0) ? j : j - 1;
+		int endPosX = (i + 1 >= rows) ? i : i + 1;
+		int endPosY = (j + 1 >= columns) ? j : j + 1;
+		for (int rowNum = startPosX; rowNum <= endPosX; rowNum++) {
+			for (int colNum = startPosY; colNum <= endPosY; colNum++) {
+				if (rowNum != i || colNum != j) {
+					// System.out.printf("rowNum %d, colNum %d, node %d \n",
+					// rowNum, colNum, xyTo1D(rowNum, colNum, columns));
+					neighbours.enqueue(xyTo1D(rowNum, colNum, columns));
 				}
 			}
 		}
-		return neightbors;
+		return neighbours;
 	}
 
 	private int xyTo1D(int i, int j, int N) {
@@ -192,11 +187,11 @@ public class BoggleSolver {
 
 	public static void main(String[] args) {
 		// String[] args1 = { "boggle/dictionary-yawl.txt",
-		// "boggle/board-antidisestablishmentarianisms.txt" };//40
+		// "boggle/board-antidisestablishmentarianisms.txt" };// 40
 		// String[] args1 = { "boggle/dictionary-yawl.txt",
 		// "boggle/board-dichlorodiphenyltrichloroethanes.txt" };
 		// String[] args1 = { "boggle/dictionary-algs4.txt",
-		// "boggle/board4x4.txt" };//33
+		// "boggle/board4x4.txt" };// 33
 		String[] args1 = { "boggle/dictionary-algs4.txt", "boggle/board-q.txt" };// 84
 		// String[] args1 = { "boggle/dictionary-common.txt" };
 		//
