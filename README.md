@@ -1,7 +1,12 @@
 algorithms_II
 =============
 
-Repository for second part of Princeton Algorithms, Part II (http://algs4.cs.princeton.edu/home/)
+Repository for Coursera's Princeton Algorithms, Part II (http://algs4.cs.princeton.edu/home/)
+
+Librarys
+========
+
+Libraries used by all classes can be dowloaded from [Book's site](http://algs4.cs.princeton.edu/code/), [algs4.jar](http://algs4.cs.princeton.edu/code/algs4.jar)
 
 Wordnet
 =======================
