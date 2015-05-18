@@ -146,7 +146,7 @@ Score = 33                                                ...
                                                           Score = 84
 ```
 
-Programming Assignment 5: Burrows-Wheeler Data Compression
+Programming Assignment 5: Burrows-Wheeler Data Compression [http://coursera.cs.princeton.edu/algs4/assignments/burrows.html]
 ===================================================
 Implement the Burrows-Wheeler data compression algorithm. This revolutionary algorithm outcompresses gzip and PKZIP, is relatively easy to implement, and is not protected by any patents. It forms the basis of the Unix compression utililty bzip2.
 
