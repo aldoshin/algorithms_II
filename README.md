@@ -2,6 +2,7 @@ algorithms_II
 =============
 
 Repository for Coursera's Algorithms, Part II from Princeton (http://algs4.cs.princeton.edu/home/)
+### In order to fulfill Coursera's honor code all source code was move to private repository in [Bitbucket](https://bitbucket.org/aldoshin/algorithms_ii/)
 
 Librarys
 ========
