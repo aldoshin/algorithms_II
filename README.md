@@ -168,15 +168,17 @@ ABRACADABRA!
 96 bits
 Note that in ASCII, 'A' is 41 (hex) and '!' is 21 (hex).
 Huffman encoding and decoding. Huffman.java (Program 5.10 in Algorithms, 4th edition) implements the classic Huffman compression and expansion algorithms.
-
+```sh
 % java Huffman - < abra.txt | java HexDump 16
 50 4a 22 43 43 54 a8 40 00 00 01 8f 96 8f 94
 120 bits
 % java Huffman - < abra.txt | java Huffman +
 ABRACADABRA!
+```
 You will not write any code for this step.
 Move-to-front encoding and decoding. The main idea of move-to-front encoding is to maintain an ordered sequence of the characters in the alphabet, and repeatedly read in a character from the input message, print out the position in which that character appears, and move that character to the front of the sequence. As a simple example, if the initial ordering over a 6-character alphabet is A B C D E F, and we want to encode the input CAAABCCCACCF, then we would update the move-to-front sequences as follows:
 
+```
 move-to-front    in   out
 -------------    ---  ---
  A B C D E F      C    2 
@@ -192,3 +194,4 @@ move-to-front    in   out
  C A B D E F      C    0
  C A B D E F      F    5
  F C A B D E  
+```
