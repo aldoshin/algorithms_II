@@ -145,3 +145,50 @@ Score = 33                                                ...
                                                           TRIES
                                                           Score = 84
 ```
+
+Programming Assignment 5: Burrows-Wheeler Data Compression
+===================================================
+Implement the Burrows-Wheeler data compression algorithm. This revolutionary algorithm outcompresses gzip and PKZIP, is relatively easy to implement, and is not protected by any patents. It forms the basis of the Unix compression utililty bzip2.
+
+The Burrows-Wheeler compression algorithm consists of three algorithmic components, which are applied in succession:
+
+1. _Burrows-Wheeler transform._ Given a typical English text file, transform it into a text file in which sequences of the same character occur near each other many times.
+2. _Move-to-front encoding._ Given a text file in which sequences of the same character occur near each other many times, convert it into a text file in which certain characters appear more frequently than others.
+3. _Huffman compression._ Given a text file in which certain characters appear more frequently than others, compress it by encoding freqently occuring characters with short codewords and rare ones with long codewords.
+
+Step 3 is the one that compresses the message: it is particularly effective because Steps 1 and 2 steps result in a text file in which certain characters appear much more frequently than others. To expand a message, apply the inverse operations in reverse order: first apply the Huffman expansion, then the move-to-front decoding, and finally the inverse Burrows-Wheeler transform. Your task is to implement Burrows-Wheeler and move-to-front components efficiently.
+
+Binary input and binary output. To enable your programs to work with binary data, you will use the libraries BinaryStdIn.java and BinaryStdOut.java described in Algorithms, 4th edition. To display the binary output when debugging, you can use HexDump.java, which takes a command-line argument N, reads bytes from standard input and writes them to standard output in hexadecimal, N per line.
+
+% more abra.txt
+ABRACADABRA!
+
+% java HexDump 16 < abra.txt
+41 42 52 41 43 41 44 41 42 52 41 21
+96 bits
+Note that in ASCII, 'A' is 41 (hex) and '!' is 21 (hex).
+Huffman encoding and decoding. Huffman.java (Program 5.10 in Algorithms, 4th edition) implements the classic Huffman compression and expansion algorithms.
+
+% java Huffman - < abra.txt | java HexDump 16
+50 4a 22 43 43 54 a8 40 00 00 01 8f 96 8f 94
+120 bits
+% java Huffman - < abra.txt | java Huffman +
+ABRACADABRA!
+You will not write any code for this step.
+Move-to-front encoding and decoding. The main idea of move-to-front encoding is to maintain an ordered sequence of the characters in the alphabet, and repeatedly read in a character from the input message, print out the position in which that character appears, and move that character to the front of the sequence. As a simple example, if the initial ordering over a 6-character alphabet is A B C D E F, and we want to encode the input CAAABCCCACCF, then we would update the move-to-front sequences as follows:
+
+move-to-front    in   out
+-------------    ---  ---
+ A B C D E F      C    2 
+ C A B D E F      A    1
+ A C B D E F      A    0
+ A C B D E F      A    0
+ A C B D E F      B    2
+ B A C D E F      C    2
+ C B A D E F      C    0
+ C B A D E F      C    0
+ C B A D E F      A    2
+ A C B D E F      C    1
+ C A B D E F      C    0
+ C A B D E F      F    5
+ F C A B D E  
