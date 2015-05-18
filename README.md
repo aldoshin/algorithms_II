@@ -262,7 +262,7 @@ Also, note that the integer 3 is represented using 4 bytes (00 00 00 03). The ch
 
 _Burrows-Wheeler decoder._ Now, we describe how to invert the Burrows-Wheeler transform and recover the original input string. If the jth original suffix (original string, shifted j characters to the left) is the ith row in the sorted order, we define next[i] to be the row in the sorted order where the (j + 1)st original suffix appears. For example, if first is the row in which the original input string appears, then next[first] is the row in the sorted order where the 1st original suffix (the original string left-shifted by 1) appears; next[next[first]] is the row in the sorted order where the 2nd original suffix appears; next[next[next[first]]] is the row where the 3rd original suffix appears; and so forth.
 
-    + _Decoding the message given t[], first, and the next[] array._ The input to the Burrows-Wheeler decoder is the last column t[] of the sorted suffixes along with first. From t[], we can deduce the first column of the sorted suffixes because it consists of precisely the same characters, but in sorted order.
+* _Decoding the message given t[], first, and the next[] array._ The input to the Burrows-Wheeler decoder is the last column t[] of the sorted suffixes along with first. From t[], we can deduce the first column of the sorted suffixes because it consists of precisely the same characters, but in sorted order.
 ```
  i      Sorted Suffixes     t      next
 --    -----------------------      ----
@@ -279,9 +279,9 @@ _Burrows-Wheeler decoder._ Now, we describe how to invert the Burrows-Wheeler tr
 10    R ? ? ? ? ? ? ? ? ? ? B        1
 11    R ? ? ? ? ? ? ? ? ? ? B        4
 ```
-    Now, given the next[] array and first, we can reconstruct the original input string because the first character of the ith original suffix is the ith character in the input string. In the example above, since first = 3, we know that the original input string appears in row 3; thus, the original input string starts with 'A' (and ends with '!'). Since next[first] = 7, the next original suffix appears in row 7; thus, the next character in the original input string is 'B'. Since next[next[first]] = 11, the next original suffix appears in row 11; thus, the next character in the original input string is 'R'.
-    + _Constructing the next[] array from t[] and first._ Amazingly, the information contained in the Burrows-Wheeler transform suffices to reconstruct the next[] array, and, hence, the original message! Here's how. It is easy to deduce a next[] value for a character that appears exactly once in the input string. For example, consider the suffix that starts with 'C'. By inspecting the first column, it appears 8th in the sorted order. The next original suffix after this one will have the character 'C' as its last character. By inspecting the last column, the next original appears 5th in the sorted order. Thus, next[8] = 5. Similarly, 'D' and '!' each occur only once, so we can deduce that next[9] = 2 and next[0] = 3.
-    ```
+Now, given the next[] array and first, we can reconstruct the original input string because the first character of the ith original suffix is the ith character in the input string. In the example above, since first = 3, we know that the original input string appears in row 3; thus, the original input string starts with 'A' (and ends with '!'). Since next[first] = 7, the next original suffix appears in row 7; thus, the next character in the original input string is 'B'. Since next[next[first]] = 11, the next original suffix appears in row 11; thus, the next character in the original input string is 'R'.
+* _Constructing the next[] array from t[] and first._ Amazingly, the information contained in the Burrows-Wheeler transform suffices to reconstruct the next[] array, and, hence, the original message! Here's how. It is easy to deduce a next[] value for a character that appears exactly once in the input string. For example, consider the suffix that starts with 'C'. By inspecting the first column, it appears 8th in the sorted order. The next original suffix after this one will have the character 'C' as its last character. By inspecting the last column, the next original appears 5th in the sorted order. Thus, next[8] = 5. Similarly, 'D' and '!' each occur only once, so we can deduce that next[9] = 2 and next[0] = 3.
+```
  i      Sorted Suffixes     t      next
 --    -----------------------      ----
  0    ! ? ? ? ? ? ? ? ? ? ? A        3
@@ -297,9 +297,9 @@ _Burrows-Wheeler decoder._ Now, we describe how to invert the Burrows-Wheeler tr
 10    R ? ? ? ? ? ? ? ? ? ? B
 11    R ? ? ? ? ? ? ? ? ? ? B
 ```
-    However, since 'R' appears twice, it may seem ambiguous whether next[10] = 1 and next[11] = 4, or whether next[10] = 4 and next[11] = 1. Here's the key rule that resolves the apparent ambiguity:
+However, since 'R' appears twice, it may seem ambiguous whether next[10] = 1 and next[11] = 4, or whether next[10] = 4 and next[11] = 1. Here's the key rule that resolves the apparent ambiguity:
         _If sorted row i and j both start with the same character and i < j, then next[i] < next[j]._
-    This rule implies next[10] = 1 and next[11] = 4. Why is this rule valid? The rows are sorted so row 10 is lexicographically less than row 11. Thus the ten unknown characters in row 10 must be less than the ten unknown characters in row 11 (since both start with 'R'). We also know that between the two rows that end with 'R', row 1 is less than row 4. But, the ten unknown characters in row 10 and 11 are precisely the first ten characters in rows 1 and 4. Thus, next[10] = 1 and next[11] = 4 or this would contradict the fact that the suffixes are sorted.
+This rule implies next[10] = 1 and next[11] = 4. Why is this rule valid? The rows are sorted so row 10 is lexicographically less than row 11. Thus the ten unknown characters in row 10 must be less than the ten unknown characters in row 11 (since both start with 'R'). We also know that between the two rows that end with 'R', row 1 is less than row 4. But, the ten unknown characters in row 10 and 11 are precisely the first ten characters in rows 1 and 4. Thus, next[10] = 1 and next[11] = 4 or this would contradict the fact that the suffixes are sorted.
 
 Check that the decoder recovers any encoded message.
 ```
